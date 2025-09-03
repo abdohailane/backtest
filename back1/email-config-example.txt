@@ -1,0 +1,25 @@
+# Configuration Email - Exemple
+# Copiez ces variables dans votre fichier .env
+
+# Configuration JWT
+JWT_SECRET=votre_secret_jwt_tres_securise
+
+# Configuration Email (Gmail)
+EMAIL_USER=votre-email@gmail.com
+EMAIL_PASS=votre-mot-de-passe-app-gmail
+
+# Configuration Email (Outlook/Hotmail)
+# EMAIL_SERVICE=hotmail
+# EMAIL_USER=votre-email@outlook.com
+# EMAIL_PASS=votre-mot-de-passe
+
+# URL Frontend (pour les liens dans les emails)
+FRONTEND_URL=http://localhost:3000
+
+# Instructions pour Gmail:
+# 1. Activez la validation en 2 étapes sur votre compte Gmail
+# 2. Générez un "mot de passe d'application" spécifique
+# 3. Utilisez ce mot de passe d'application comme EMAIL_PASS
+
+# IMPORTANT: Les liens d'approbation pointent vers le backend (port 5000)
+# car ils traitent directement la demande sans passer par le frontend
