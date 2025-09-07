@@ -1,19 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
-const { sql, config } = require("../db");
+const { pool } = require("../neon-db");
 
 // Récupérer tous les types de sections disponibles
 router.get("/types", auth, async (req, res) => {
   try {
-    await sql.connect(config);
-    const result = await sql.query`
-      SELECT st.*, 
-             (SELECT COUNT(*) FROM SousSectionType sst WHERE sst.section_type_id = st.id) as sous_sections_count
-      FROM SectionType st 
-      ORDER BY st.description
-    `;
-    res.json(result.recordset);
+    const client = await pool.connect();
+    try {
+      const result = await client.query(`
+        SELECT st.*, 
+               (SELECT COUNT(*) FROM sous_section_type sst WHERE sst.section_type_id = st.id) as sous_sections_count
+        FROM section_type st 
+        ORDER BY st.description
+      `);
+      res.json(result.rows);
+    } finally {
+      client.release();
+    }
   } catch (err) {
     console.error("Erreur lors de la récupération des types de sections:", err);
     res.status(500).json({ message: "Erreur serveur" });
